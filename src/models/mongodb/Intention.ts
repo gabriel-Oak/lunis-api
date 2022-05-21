@@ -11,6 +11,7 @@ import {
 export interface IntentionProps {
   id?: ObjectID;
   name: string;
+  module: string;
   triggers: string[];
   answers: string[];
   childIntents?: Intention[];
@@ -25,6 +26,9 @@ export class Intention {
 
   @Column()
   name: string;
+
+  @Column()
+  module: string;
 
   @Column()
   triggers: string[];
@@ -42,6 +46,7 @@ export class Intention {
     if (props) {
       this.id = props.id;
       this.name = props.name;
+      this.module = props.module;
       this.triggers = props.triggers;
       this.answers = props.answers;
       this.parentIntent = props.parentIntent;

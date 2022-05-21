@@ -1,4 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { FeatureResponse } from 'src/types/feature';
 import { ProcessCommandDto } from './processor.dtos';
 import { ProcessorService } from './processor.service';
 
@@ -7,7 +8,8 @@ export class ProcessorController {
   constructor(private readonly processorService: ProcessorService) {}
 
   @Post()
-  process(@Body() body: ProcessCommandDto): string {
-    return this.processorService.process(body);
+  @HttpCode(200)
+  async process(@Body() body: ProcessCommandDto): Promise<FeatureResponse> {
+    return await this.processorService.process(body);
   }
 }
