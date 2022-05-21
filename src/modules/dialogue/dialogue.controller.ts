@@ -1,5 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { FeatureResponse } from 'src/types/feature';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CreateDialogueDto } from './dialogue.dtos';
 import { DialogueService } from './dialogue.service';
 
@@ -13,7 +12,12 @@ export class DialogueController {
   }
 
   @Post('/save')
-  async process(@Body() body: CreateDialogueDto): Promise<FeatureResponse> {
+  async saveDialogue(@Body() body: CreateDialogueDto) {
     return await this.dialogueService.createUpdateDialogue(body);
+  }
+
+  @Delete('/:id')
+  async removeDialogue(@Param('id') id: string) {
+    return await this.dialogueService.removeDialogue(id);
   }
 }

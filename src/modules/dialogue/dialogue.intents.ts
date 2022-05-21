@@ -122,4 +122,13 @@ export const dialogueIntents: IntentInterface[] = [
       'Oba! deu certo!',
     ],
   },
+  {
+    name: 'remove_intention',
+    triggers: [],
+    answers: [
+      'Sucesso ao remover esse novo dialogo!',
+      'Sua entidade foi removida com exito!',
+      'Oba! deu certo!',
+    ],
+  },
 ];

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Intention } from 'src/models/mongodb/Intention';
 import { FeatureBase, FeatureResponse } from 'src/types/feature';
@@ -28,20 +28,20 @@ export class DialogueService extends FeatureBase {
     body: CreateDialogueDto,
   ): Promise<FeatureResponse> {
     try {
-      // const alreadyExits = await this.intentionRepository.findOne({
-      //   where: {name: body.name},
-      // });
-
       let parentIntent;
       if (body.parentIntent)
         parentIntent = await this.intentionRepository.findOne(
           body.parentIntent,
         );
 
+      const alreadyExits = await this.intentionRepository.findOne({
+        where: { name: body.name },
+      });
       const intention = new Intention({
         ...body,
         module: 'dialogue',
         parentIntent,
+        id: alreadyExits?.id,
       });
 
       await this.intentionRepository.save(intention);
@@ -53,7 +53,29 @@ export class DialogueService extends FeatureBase {
       };
     } catch (error) {
       return {
-        messages: [error],
+        messages: [error.message || error],
+      };
+    }
+  }
+
+  async removeDialogue(id: string): Promise<FeatureResponse> {
+    try {
+      const intent = await this.intentionRepository.findOne(id);
+      if (!intent)
+        throw new Error(
+          'Oops, parece que esse dialogo já não existe em nossa base',
+        );
+
+      await this.intentionRepository.remove(intent);
+      const removeIntention = this.intents.find(
+        (i) => i.name === 'remove_intention',
+      );
+      return {
+        messages: [pickAnswer(removeIntention)],
+      };
+    } catch (error) {
+      return {
+        messages: [error.message || error],
       };
     }
   }

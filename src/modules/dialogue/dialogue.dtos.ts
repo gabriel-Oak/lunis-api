@@ -20,8 +20,4 @@ export class CreateDialogueDto {
   @IsOptional()
   @IsString()
   parentIntent?: string;
-
-  @IsOptional()
-  @IsString()
-  id?: string;
 }
