@@ -9,7 +9,6 @@ import {
 } from 'typeorm';
 
 export interface IntentionProps {
-  id?: ObjectID;
   name: string;
   module: string;
   triggers: string[];
@@ -24,7 +23,7 @@ export class Intention {
   @ObjectIdColumn()
   id: ObjectID;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column()
@@ -44,7 +43,6 @@ export class Intention {
 
   constructor(props?: IntentionProps) {
     if (props) {
-      this.id = props.id;
       this.name = props.name;
       this.module = props.module;
       this.triggers = props.triggers;

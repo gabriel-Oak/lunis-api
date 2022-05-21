@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { pickAnswer } from 'src/utils/intentions';
 import { IntentInterface } from './intent';
 
 export interface FeatureResponse {
@@ -18,9 +19,7 @@ export class FeatureBase {
     _speech: string,
   ): FeatureResponse | Promise<FeatureResponse> {
     return {
-      messages: [
-        intent.answers[Math.floor(Math.random() * intent.answers.length)],
-      ],
+      messages: [pickAnswer(intent)],
     };
   }
 

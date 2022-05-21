@@ -113,4 +113,13 @@ export const dialogueIntents: IntentInterface[] = [
       'Oi, eu sou Lúnis, sou a assistente virtual de Gabriel Oak. Posso fazer várias coisas, como ler as últimas manchetes, contar uma piada, ou conversar com você caso esteja se sentindo solitário!',
     ],
   },
+  {
+    name: 'insert_intention',
+    triggers: [],
+    answers: [
+      'Sucesso ao salvar esse novo dialogo!',
+      'Sua entidade foi salva com exito!',
+      'Oba! deu certo!',
+    ],
+  },
 ];
