@@ -7,6 +7,8 @@ import { Repository } from 'typeorm';
 import { CreateDialogueDto } from './dialogue.dtos';
 import { dialogueIntents } from './dialogue.intents';
 
+const MODULE_NAME = 'dialogue';
+
 @Injectable()
 export class DialogueService extends FeatureBase {
   constructor(
@@ -14,20 +16,36 @@ export class DialogueService extends FeatureBase {
     private intentionRepository: Repository<Intention>,
   ) {
     super(dialogueIntents);
+    this.fetchCreatedIntents();
   }
 
   async findAllDialogues(): Promise<Intention[]> {
     return this.intentionRepository.find({
       where: {
-        module: 'dialogue',
+        module: MODULE_NAME,
       },
     });
+  }
+
+  async fetchCreatedIntents() {
+    try {
+      const intents = await this.findAllDialogues();
+      if (intents.length) this.setIntents([...dialogueIntents, ...intents]);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async createUpdateDialogue(
     body: CreateDialogueDto,
   ): Promise<FeatureResponse> {
     try {
+      const existLocal = dialogueIntents.find((i) => i.name === body.name);
+      if (existLocal)
+        throw new Error(
+          'Opa, parece que você está tentando alterar uma fala padrão do sistema. Não posso deixar!',
+        );
+
       let parentIntent;
       if (body.parentIntent)
         parentIntent = await this.intentionRepository.findOne(
@@ -48,13 +66,17 @@ export class DialogueService extends FeatureBase {
       const insertIntention = this.intents.find(
         (i) => i.name === 'insert_intention',
       );
+      this.fetchCreatedIntents();
       return {
         messages: [pickAnswer(insertIntention)],
       };
     } catch (error) {
-      return {
-        messages: [error.message || error],
-      };
+      throw new HttpException(
+        {
+          messages: [error.message || error],
+        },
+        error.message ? 400 : 500,
+      );
     }
   }
 
@@ -70,13 +92,17 @@ export class DialogueService extends FeatureBase {
       const removeIntention = this.intents.find(
         (i) => i.name === 'remove_intention',
       );
+      this.fetchCreatedIntents();
       return {
         messages: [pickAnswer(removeIntention)],
       };
     } catch (error) {
-      return {
-        messages: [error.message || error],
-      };
+      throw new HttpException(
+        {
+          messages: [error.message || error],
+        },
+        error.message ? 400 : 500,
+      );
     }
   }
 }

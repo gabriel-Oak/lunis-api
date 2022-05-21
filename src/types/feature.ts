@@ -11,6 +11,10 @@ export class FeatureBase {
   intents: IntentInterface[];
 
   constructor(intents: IntentInterface[]) {
+    this.setIntents(intents);
+  }
+
+  public setIntents(intents: IntentInterface[]) {
     this.intents = intents;
   }
 

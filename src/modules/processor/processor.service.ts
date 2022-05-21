@@ -11,7 +11,7 @@ export class ProcessorService {
     private readonly dialogueService: DialogueService,
     private readonly newsService: NewsService,
   ) {
-    this.features = [this.dialogueService, this.newsService];
+    this.features = [this.newsService, this.dialogueService];
   }
 
   async process(body: ProcessCommandDto): Promise<FeatureResponse> {
