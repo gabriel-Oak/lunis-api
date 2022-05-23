@@ -1,14 +1,19 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Intention } from 'src/models/mongodb/Intention';
-import { DialogueService } from '../dialogue/dialogue.service';
+import { ServicesModule } from 'src/services/services.module';
+import { DialogueModule } from '../dialogue/dialogue.module';
 import { NewsService } from '../news/news.service';
 import { ProcessorController } from './processor.controller';
 import { ProcessorService } from './processor.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Intention])],
+  imports: [
+    TypeOrmModule.forFeature([Intention]),
+    DialogueModule,
+    ServicesModule,
+  ],
   controllers: [ProcessorController],
-  providers: [ProcessorService, DialogueService, NewsService],
+  providers: [ProcessorService, NewsService],
 })
 export class ProcessorModule {}

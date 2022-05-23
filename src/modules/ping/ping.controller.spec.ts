@@ -15,7 +15,7 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
+    it('should return "Online status"', () => {
       expect(pingController.ping().indexOf(`Hi, I'm online bro`)).toBe(0);
     });
   });

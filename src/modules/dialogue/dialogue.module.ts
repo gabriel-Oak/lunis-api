@@ -8,5 +8,6 @@ import { DialogueService } from './dialogue.service';
   imports: [TypeOrmModule.forFeature([Intention])],
   controllers: [DialogueController],
   providers: [DialogueService],
+  exports: [DialogueService],
 })
 export class DialogueModule {}
