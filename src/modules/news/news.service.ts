@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { HttpService } from 'src/services/http.service';
 import { FeatureBase, FeatureResponse } from 'src/types/feature';
 import { IntentInterface } from 'src/types/intent';
@@ -19,26 +19,21 @@ export class NewsService extends FeatureBase {
 
   async processCommand(
     intent: IntentInterface,
-    _speech: string,
+    // _speech: string,
   ): Promise<FeatureResponse> {
-    try {
-      const response = await this.httpService.get(
-        'https://news.google.com/rss?hl=pt-BR&gl=BR&ceid=BR:pt-419',
-      );
+    const response = await this.httpService.get(
+      'https://news.google.com/rss?hl=pt-BR&gl=BR&ceid=BR:pt-419',
+    );
 
-      const {
-        rss: { channel },
-      } = await xml2js.parseStringPromise(response);
-      const news = channel[0].item
-        .slice(0, NEWS_COUNT)
-        .map((item: { title: string }) => item.title[0]);
+    const {
+      rss: { channel },
+    } = await xml2js.parseStringPromise(response);
+    const news = channel[0].item
+      .slice(0, NEWS_COUNT)
+      .map((item: { title: string }) => item.title[0]);
 
-      return {
-        messages: [pickAnswer(intent), ...news],
-      };
-    } catch (error) {
-      console.error(error);
-      throw new HttpException(String(error), 500);
-    }
+    return {
+      messages: [pickAnswer(intent), ...news],
+    };
   }
 }

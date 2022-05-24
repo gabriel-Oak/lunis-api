@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Intention } from 'src/models/mongodb/Intention';
 import { FeatureBase, FeatureResponse } from 'src/types/feature';
@@ -39,70 +39,52 @@ export class DialogueService extends FeatureBase {
   async createUpdateDialogue(
     body: CreateDialogueDto,
   ): Promise<FeatureResponse> {
-    try {
-      const existLocal = dialogueIntents.find((i) => i.name === body.name);
-      if (existLocal)
-        throw new Error(
-          'Opa, parece que você está tentando alterar uma fala padrão do sistema. Não posso deixar!',
-        );
-
-      let parentIntent;
-      if (body.parentIntent)
-        parentIntent = await this.intentionRepository.findOne(
-          body.parentIntent,
-        );
-
-      const alreadyExits = await this.intentionRepository.findOne({
-        where: { name: body.name },
-      });
-      const intention = new Intention({
-        ...body,
-        module: 'dialogue',
-        parentIntent,
-        id: alreadyExits?.id,
-      });
-
-      await this.intentionRepository.save(intention);
-      const insertIntention = this.intents.find(
-        (i) => i.name === 'insert_intention',
-      );
-      this.fetchCreatedIntents();
-      return {
-        messages: [pickAnswer(insertIntention)],
-      };
-    } catch (error) {
+    const existLocal = dialogueIntents.find((i) => i.name === body.name);
+    if (existLocal)
       throw new HttpException(
-        {
-          messages: [error.message || error],
-        },
-        error.message ? 400 : 500,
+        'Opa, parece que você está tentando alterar uma fala padrão do sistema. Não posso deixar!',
+        HttpStatus.BAD_REQUEST,
       );
-    }
+
+    let parentIntent;
+    if (body.parentIntent)
+      parentIntent = await this.intentionRepository.findOne(body.parentIntent);
+
+    const alreadyExits = await this.intentionRepository.findOne({
+      where: { name: body.name },
+    });
+    const intention = new Intention({
+      ...body,
+      module: 'dialogue',
+      parentIntent,
+      id: alreadyExits?.id,
+    });
+
+    await this.intentionRepository.save(intention);
+    const insertIntention = this.intents.find(
+      (i) => i.name === 'insert_intention',
+    );
+    this.fetchCreatedIntents();
+    return {
+      messages: [pickAnswer(insertIntention)],
+    };
   }
 
   async removeDialogue(id: string): Promise<FeatureResponse> {
-    try {
-      const intent = await this.intentionRepository.findOne(id);
-      if (!intent)
-        throw new Error(
-          'Oops, parece que esse dialogo já não existe em nossa base',
-        );
-
-      await this.intentionRepository.remove(intent);
-      const removeIntention = this.intents.find(
-        (i) => i.name === 'remove_intention',
-      );
-      this.fetchCreatedIntents();
-      return {
-        messages: [pickAnswer(removeIntention)],
-      };
-    } catch (error) {
+    const intent = await this.intentionRepository.findOne(id);
+    if (!intent)
       throw new HttpException(
-        {
-          messages: [error.message || error],
-        },
-        error.message ? 400 : 500,
+        'Oops, parece que esse dialogo já não existe em nossa base',
+        HttpStatus.BAD_REQUEST,
       );
-    }
+
+    await this.intentionRepository.remove(intent);
+    const removeIntention = this.intents.find(
+      (i) => i.name === 'remove_intention',
+    );
+    this.fetchCreatedIntents();
+    return {
+      messages: [pickAnswer(removeIntention)],
+    };
   }
 }

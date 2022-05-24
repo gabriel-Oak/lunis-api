@@ -4,16 +4,20 @@ import { JokesModule } from './modules/jokes/jokes.module';
 import { NewsModule } from './modules/news/news.module';
 import { PingModule } from './modules/ping/ping.module';
 import { ProcessorModule } from './modules/processor/processor.module';
-import { mongodbRoot } from './mongodb.config';
 import { ServicesModule } from './services/services.module';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { mongoDBConfig } from './mongodb.config';
+import { APP_FILTER } from '@nestjs/core';
+import { ExceptionsFilter } from './utils/exception.filter';
 
 @Module({
   imports: [
-    mongodbRoot,
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env',
     }),
+    TypeOrmModule.forRoot(mongoDBConfig),
     DialogueModule,
     JokesModule,
     NewsModule,
@@ -22,6 +26,11 @@ import { ConfigModule } from '@nestjs/config';
     ServicesModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionsFilter,
+    },
+  ],
 })
 export class AppModule {}

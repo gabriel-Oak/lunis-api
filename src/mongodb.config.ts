@@ -1,7 +1,10 @@
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Intention } from './models/mongodb/Intention';
+import * as dotenv from 'dotenv';
 
-export const mongodbRoot = TypeOrmModule.forRoot({
+dotenv.config({ path: './.env' });
+
+export const mongoDBConfig: TypeOrmModuleOptions = {
   type: 'mongodb',
   host: process.env.MONGO_HOST,
   port: +process.env.MONGO_PORT,
@@ -10,4 +13,4 @@ export const mongodbRoot = TypeOrmModule.forRoot({
   database: process.env.MONGO_DATABASE,
   entities: [Intention],
   synchronize: false,
-});
+};
