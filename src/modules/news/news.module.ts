@@ -4,7 +4,6 @@ import { NewsService } from './news.service';
 
 @Module({
   imports: [ServicesModule],
-  controllers: [],
   providers: [NewsService],
 })
 export class NewsModule {}

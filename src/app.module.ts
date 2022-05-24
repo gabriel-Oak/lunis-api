@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { DialogueModule } from './modules/dialogue/dialogue.module';
+import { JokesModule } from './modules/jokes/jokes.module';
 import { NewsModule } from './modules/news/news.module';
 import { PingModule } from './modules/ping/ping.module';
 import { ProcessorModule } from './modules/processor/processor.module';
@@ -9,11 +10,12 @@ import { ServicesModule } from './services/services.module';
 @Module({
   imports: [
     mongodbRoot,
-    ServicesModule,
     DialogueModule,
+    JokesModule,
+    NewsModule,
     PingModule,
     ProcessorModule,
-    NewsModule,
+    ServicesModule,
   ],
   controllers: [],
   providers: [],

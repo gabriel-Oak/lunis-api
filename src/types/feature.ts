@@ -30,7 +30,7 @@ export class FeatureBase {
   checkIntent(speech: string): IntentInterface | null {
     for (const intent of this.intents)
       for (const trigger of intent.triggers)
-        if (speech.indexOf(trigger) > -1) return intent;
+        if (speech.toLowerCase().indexOf(trigger) > -1) return intent;
     return null;
   }
 }
