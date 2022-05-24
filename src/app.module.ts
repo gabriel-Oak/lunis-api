@@ -6,10 +6,14 @@ import { PingModule } from './modules/ping/ping.module';
 import { ProcessorModule } from './modules/processor/processor.module';
 import { mongodbRoot } from './mongodb.config';
 import { ServicesModule } from './services/services.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     mongodbRoot,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     DialogueModule,
     JokesModule,
     NewsModule,
