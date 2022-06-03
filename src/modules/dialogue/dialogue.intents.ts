@@ -44,7 +44,7 @@ export const dialogueIntents: IntentInterface[] = [
   },
   {
     name: 'greetins',
-    triggers: ['olá', 'oi', 'saudações', 'hello', 'e aí', 'eae'],
+    triggers: ['olá', 'oi.', 'saudações', 'hello', 'e aí', 'eae'],
     answers: [
       'Olá!',
       'Saudações!',

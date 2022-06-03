@@ -17,7 +17,9 @@ export class ProcessorService {
   }
 
   async process(body: ProcessCommandDto): Promise<FeatureResponse> {
-    const speech = body.speech.replace(/[\?!]/g, '').toLowerCase();
+    let speech = body.speech.replace(/[\?!]/g, '').toLowerCase();
+    if (speech[speech.length - 1] !== '.') speech += '.';
+
     for (const feature of this.features) {
       const intent = feature.checkIntent(speech);
       if (intent) return feature.processCommand(intent, speech);

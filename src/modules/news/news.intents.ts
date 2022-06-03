@@ -17,4 +17,9 @@ export const newsIntents: IntentInterface[] = [
       'Estas são as notícias que encontrei:',
     ],
   },
+  {
+    name: 'specific_new',
+    triggers: ['notícia ', 'matéria ', 'manchete '],
+    answers: ['Desculpe, não consegui encontrar esta notícia'],
+  },
 ];

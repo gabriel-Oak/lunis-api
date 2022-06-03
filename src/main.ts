@@ -11,6 +11,7 @@ async function bootstrap() {
   Sentry.init({
     dsn: 'https://4db959c58707444d8520f3b761110dd5@o490602.ingest.sentry.io/6435063',
   });
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(process.env.APIT_PORT || 3000);
 }
