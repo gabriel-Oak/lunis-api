@@ -44,7 +44,7 @@ export const dialogueIntents: IntentInterface[] = [
   },
   {
     name: 'greetins',
-    triggers: ['olá', 'oi.', 'saudações', 'hello', 'e aí', 'eae'],
+    triggers: ['olá', 'oi.', ' oi ', 'saudações', 'hello', 'e aí', 'eae'],
     answers: [
       'Olá!',
       'Saudações!',
@@ -108,6 +108,7 @@ export const dialogueIntents: IntentInterface[] = [
       'você pode fazer',
       'você faz',
       'ajuda',
+      'help',
     ],
     answers: [
       'Oi, eu sou Lúnis, sou a assistente virtual de Gabriel Oak. Posso fazer várias coisas, como ler as últimas manchetes, contar uma piada, ou conversar com você caso esteja se sentindo solitário!',

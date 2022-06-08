@@ -19,6 +19,7 @@ export class JokesService extends FeatureBase {
     for (const trigger of belongs.triggers) {
       if (speech.indexOf(trigger) > -1) {
         const query = speech.replace('.', '').split(trigger);
+        console.log(query, speech, trigger);
 
         if (query.length < 2)
           throw new HttpException(

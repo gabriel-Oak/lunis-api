@@ -18,6 +18,7 @@ export class ProcessorService {
 
   async process(body: ProcessCommandDto): Promise<FeatureResponse> {
     let speech = body.speech.replace(/[\?!]/g, '').toLowerCase();
+    speech = ' ' + speech;
     if (speech[speech.length - 1] !== '.') speech += '.';
 
     for (const feature of this.features) {
