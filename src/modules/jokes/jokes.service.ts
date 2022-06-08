@@ -18,7 +18,8 @@ export class JokesService extends FeatureBase {
 
     for (const trigger of belongs.triggers) {
       if (speech.indexOf(trigger) > -1) {
-        const query = speech.split(trigger);
+        const query = speech.replace('.', '').split(trigger);
+
         if (query.length < 2)
           throw new HttpException(
             'Desculpe, não entendi o tipo da piada, por favor, tente de novo!',
