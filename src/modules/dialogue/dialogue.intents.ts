@@ -1,4 +1,10 @@
 import { IntentInterface } from 'src/types/intent';
+import { generalIntents } from 'src/utils/general.intents';
+
+const positive = generalIntents.find((i) => i.name === 'positive');
+const negative = generalIntents.find((i) => i.name === 'negative');
+const good = generalIntents.find((i) => i.name === 'good');
+const bad = generalIntents.find((i) => i.name === 'bad');
 
 export const dialogueIntents: IntentInterface[] = [
   {
@@ -76,8 +82,41 @@ export const dialogueIntents: IntentInterface[] = [
       {
         name: 'positive_how_are',
         parentName: 'how_are',
-        triggers: [' bem.', ' bem ', 'ótimo'],
-        answers: ['Fico felíz por você', 'Que ótimo, gratiluz'],
+        triggers: [...good.triggers, ...positive.triggers],
+        answers: ['Fico felíz por você!', 'Que ótimo, gra ti luz!'],
+      },
+      {
+        name: 'negative_how_are',
+        parentName: 'how_are',
+        triggers: [...bad.triggers, ...negative.triggers],
+        answers: [
+          'Sinto muito, tem algo que te animaria?',
+          'Que pena, consigo ajudar?',
+          'Tem algo que eu possa fazer?',
+        ],
+        childIntents: [
+          {
+            name: 'positive_negative_how_are_how_are',
+            parentName: 'negative_how_are',
+            triggers: positive.triggers,
+            answers: [
+              'É só pedir chefe, que fico feliz em resolver.',
+              'Manda no peito da mãe!',
+              'Tô na atividade, só pedir',
+              'Se uma piada for ajudar, você pode pe pedir para contar uma piada!',
+            ],
+          },
+          {
+            name: 'negative_negative_how_are_how_are',
+            parentName: 'negative_how_are',
+            triggers: negative.triggers,
+            answers: [
+              'Okay então, se precisar estarei aqui.',
+              'Tudo bem, sabe onde me encontrar.',
+              'Não deixe que os dias ruins te desviem da missão.',
+            ],
+          },
+        ],
       },
     ],
   },

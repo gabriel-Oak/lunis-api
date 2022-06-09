@@ -22,8 +22,8 @@ export class ProcessorService {
     if (speech[speech.length - 1] !== '.') speech += '.';
 
     for (const feature of this.features) {
-      const intent = feature.checkIntent(speech);
-      if (intent) return feature.processCommand(intent, speech);
+      const intent = feature.checkIntent(speech, body.path);
+      if (intent) return feature.processCommand(intent, speech, body.path);
     }
 
     return {
