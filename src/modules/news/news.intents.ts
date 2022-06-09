@@ -3,14 +3,7 @@ import { IntentInterface } from 'src/types/intent';
 export const newsIntents: IntentInterface[] = [
   {
     name: 'news',
-    triggers: [
-      ' as notícias',
-      'ultimas notícias',
-      'notícias recentes',
-      ' as novidades',
-      'últimas manchetes',
-      ' as manchetes',
-    ],
+    triggers: ['notícias', 'manchetes'],
     answers: [
       'Obtendo últimas notícias!',
       'Ok, fique ligado no que está rolando!',
