@@ -14,7 +14,7 @@ const NEWS_COUNT = 10;
 @Injectable()
 export class NewsService extends FeatureBase {
   constructor(private readonly httpService: HttpService) {
-    super(newsIntents);
+    super(newsIntents, 'news');
   }
 
   async processCommand(

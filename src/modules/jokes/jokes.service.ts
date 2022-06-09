@@ -9,7 +9,7 @@ import { pickAnswer } from 'src/utils/intentions';
 @Injectable()
 export class JokesService extends FeatureBase {
   constructor() {
-    super(jokesIntents);
+    super(jokesIntents, 'jokes');
   }
 
   processCommand(intent: IntentInterface, speech: string): FeatureResponse {

@@ -27,7 +27,9 @@ export class ProcessorService {
     }
 
     return {
-      messages: ['Desculpe, não entendi, poderia tentar de novo?'],
+      messages: [
+        'Desculpe, ainda estou aprendendo, não sei como lidar com isso.',
+      ],
     };
   }
 }

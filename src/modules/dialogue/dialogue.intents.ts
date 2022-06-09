@@ -67,10 +67,18 @@ export const dialogueIntents: IntentInterface[] = [
     ],
     answers: [
       'Eu estou bem, obrigada, e você?',
-      'Suave na nave, lança a braba',
+      'Suave na nave, lança a braba, como você tá?',
       'De boa na lagoa, e tu?',
       'Tudo bem aqui, e por aí?',
       'Estou ótima, é tão bom existir. E você?',
+    ],
+    childIntents: [
+      {
+        name: 'positive_how_are',
+        parentName: 'how_are',
+        triggers: [' bem.', ' bem ', 'ótimo'],
+        answers: ['Fico felíz por você', 'Que ótimo, gratiluz'],
+      },
     ],
   },
   {
@@ -130,6 +138,26 @@ export const dialogueIntents: IntentInterface[] = [
       'Sucesso ao remover esse novo dialogo!',
       'Sua entidade foi removida com exito!',
       'Oba! deu certo!',
+    ],
+  },
+  {
+    name: 'stop',
+    triggers: [
+      'para',
+      'cancela',
+      'cancelar',
+      'pare',
+      'cala a boca',
+      'silêncio',
+      'chega',
+      'já deu',
+    ],
+    answers: [
+      'Okay :/',
+      'Ta bom!',
+      'Já calei...',
+      'Parei :(',
+      'Não ta mais aqui quem falou :|',
     ],
   },
 ];

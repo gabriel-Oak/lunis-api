@@ -15,7 +15,7 @@ export class DialogueService extends FeatureBase {
     @InjectRepository(Intention)
     private intentionRepository: Repository<Intention>,
   ) {
-    super(dialogueIntents);
+    super(dialogueIntents, 'dialogue');
     this.fetchCreatedIntents();
   }
 

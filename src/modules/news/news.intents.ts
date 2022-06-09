@@ -4,10 +4,12 @@ export const newsIntents: IntentInterface[] = [
   {
     name: 'news',
     triggers: [
-      'as notícias',
+      ' as notícias',
       'ultimas notícias',
       'notícias recentes',
-      'as novidades',
+      ' as novidades',
+      'últimas manchetes',
+      ' as manchetes',
     ],
     answers: [
       'Obtendo últimas notícias!',

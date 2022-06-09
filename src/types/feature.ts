@@ -9,13 +9,17 @@ export interface FeatureResponse {
 
 export class FeatureBase {
   intents: IntentInterface[];
+  topLevelIntents: IntentInterface[];
+  moduleName: string;
 
-  constructor(intents: IntentInterface[]) {
+  constructor(intents: IntentInterface[], moduleName: string) {
     this.setIntents(intents);
+    this.moduleName = moduleName;
   }
 
   public setIntents(intents: IntentInterface[]) {
     this.intents = intents;
+    this.topLevelIntents = intents.filter((intent) => !intent.parentName);
   }
 
   processCommand(
@@ -27,8 +31,13 @@ export class FeatureBase {
     };
   }
 
-  checkIntent(speech: string): IntentInterface | null {
-    for (const intent of this.intents)
+  checkIntent(speech: string, path = ''): IntentInterface | null {
+    const [moduleName, ...query] = path.split('/');
+    if (path) {
+      if (moduleName !== this.moduleName) return null;
+    }
+
+    for (const intent of this.topLevelIntents)
       for (const trigger of intent.triggers)
         if (speech.toLowerCase().indexOf(trigger) > -1) return intent;
     return null;
